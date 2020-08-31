@@ -3,7 +3,7 @@
   <div class="main-content" id="panel">
    
 
-    <div class="container-fluid mt--6">
+    <div class="container-fluid mt-5">
       
       <div class="row" style="margin-top: 180px">
         <div class="col-xl-8">

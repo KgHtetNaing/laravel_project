@@ -20,7 +20,7 @@ Route::get('/', function () {
 Route::group(['prefix'=> 'backside', 'as' => 'backside.'],function(){
 	Route::resource('/package','PackageController');
 	Route::resource('/location','LocationController');
-	Route::resource('/service','ServiceController');
+	Route::resource('/hotel','HotelController');
 	Route::resource('/blog','BlogController');
 });
 Auth::routes();

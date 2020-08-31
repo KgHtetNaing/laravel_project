@@ -13,7 +13,7 @@ class HotelController extends Controller
      */
     public function index()
     {
-        //
+        return view('backend.hotel.list');
     }
 
     /**
@@ -23,7 +23,7 @@ class HotelController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.hotel.new');
     }
 
     /**
@@ -45,7 +45,7 @@ class HotelController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('backend.hotel.detail');
     }
 
     /**
@@ -56,7 +56,7 @@ class HotelController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('backend.hotel.edit');
     }
 
     /**
