@@ -21,6 +21,9 @@ Route::group(['prefix'=> 'backside', 'as' => 'backside.'],function(){
 	Route::resource('/package','PackageController');
 	Route::resource('/location','LocationController');
 	Route::resource('/hotel','HotelController');
+	Route::resource('/transportation','TransportationController');
+	Route::resource('/restaurant','RestaurantController');
+	Route::resource('/booking','BookingController');
 	Route::resource('/blog','BlogController');
 });
 Auth::routes();

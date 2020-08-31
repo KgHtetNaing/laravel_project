@@ -13,7 +13,7 @@ class TransportationController extends Controller
      */
     public function index()
     {
-        //
+        return view('backend.transportation.list');
     }
 
     /**
@@ -23,7 +23,7 @@ class TransportationController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.transportation.new');
     }
 
     /**
@@ -45,7 +45,7 @@ class TransportationController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -56,7 +56,7 @@ class TransportationController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('backend.transportation.edit');
     }
 
     /**

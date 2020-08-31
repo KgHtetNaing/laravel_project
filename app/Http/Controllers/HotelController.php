@@ -45,7 +45,7 @@ class HotelController extends Controller
      */
     public function show($id)
     {
-        return view('backend.hotel.detail');
+        
     }
 
     /**
