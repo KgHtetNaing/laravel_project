@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Package;
 class PackageController extends Controller
 {
     /**
@@ -13,7 +14,9 @@ class PackageController extends Controller
      */
     public function index()
     {
-        return view('backend.package.list');
+
+        $packages = Package::all();
+        return view('backend.package.list',compact('packages'));
     }
 
     /**
@@ -23,7 +26,10 @@ class PackageController extends Controller
      */
     public function create()
     {
-        return view('backend.package.new');
+        $packages = Package::all();
+        
+
+        return view('backend.package.new',compact('packages'));
     }
 
     /**
@@ -34,7 +40,13 @@ class PackageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $codeno = "JPM-".rand(11111,99999);
+         var_dump($codeno);
+
+          $package= new Package();
+          $package->codeno = $codeno;
+
+         return redirect()->route('backside.package.index');
     }
 
     /**

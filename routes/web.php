@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'FrontendController@index')->name('index');
 
 Route::group(['prefix'=> 'backside', 'as' => 'backside.'],function(){
 	Route::resource('/package','PackageController');
@@ -29,3 +27,7 @@ Route::group(['prefix'=> 'backside', 'as' => 'backside.'],function(){
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('booking','FrontendController@booking')->name('booking');
+Route::get('location','FrontendController@location')->name('location');
+Route::get('customize','FrontendController@customize')->name('customize');
+Route::get('service','FrontendController@service')->name('service');

@@ -14,6 +14,6 @@ class Transportation extends Model
 
     public function locations()
     {
-    	return $this->belongsTo('App\Location');
+    	return $this->hasMany('App\Location');
     }
 }

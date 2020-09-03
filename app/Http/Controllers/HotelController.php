@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use\App\Hotel;
+
 class HotelController extends Controller
 {
     /**
@@ -13,7 +15,8 @@ class HotelController extends Controller
      */
     public function index()
     {
-        return view('backend.hotel.list');
+        $hotels= Hotel::all();
+        return view('backend.hotel.list',compact('hotels'));
     }
 
     /**
@@ -34,8 +37,38 @@ class HotelController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = $request->validate([
+            'name'=> ['required','string','max:255','unique:hotels'],
+            'price'=> 'required',
+            'photo' => 'required|mimes:jpeg,bmp,png,jpg'
+        ]);
+
         //
+        if($validator){
+            $name=$request->name;
+            $price=$request->price;
+            $photo= $request->photo;
+
+            //fileupload
+            $imageName= time().'.'.$photo->extension();
+            $photo->move(public_path('images/hotel'),$imageName);
+            $filepath = 'images/hotel/'.$imageName;
+
+            //data insert
+            $hotel=new Hotel;
+            $hotel->name =$name;
+            $hotel->price =$price;
+            $hotel->photo = $filepath;
+            $hotel->save();
+
+            return redirect()->route('backside.hotel.index')->with("successMsg",'New Category has been added');
+        }
+        else{
+            return redirect::back()->withErrors($validator);
+        }
+        
     }
+    
 
     /**
      * Display the specified resource.
@@ -56,7 +89,8 @@ class HotelController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.hotel.edit');
+        $hotel=Hotel::find($id);
+        return view('backend.hotel.edit',compact('hotel'));
     }
 
     /**
@@ -68,7 +102,43 @@ class HotelController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = $request->validate([
+            'name'=> ['required','string','max:255'],
+            'price'=> 'required',
+            'photo' => 'mimes:jpeg,bmp,png,jpg',
+            'oldPhoto'=> 'required'
+        ]);
+
         //
+        if($validator){
+            $name=$request->name;
+            $price=$request->price;
+            $photo= $request->photo;
+            $oldPhoto=$request->oldPhoto;
+
+            //fileupload
+            if($request->hasFile('photo')){
+            $imageName= time().'.'.$photo->extension();
+            $photo->move(public_path('images/hotel'),$imageName);
+            $filepath = 'images/hotel/'.$imageName;
+
+            if(\File::exists(public_path($oldPhoto))){
+                \File::delete(public_path($oldPhoto));
+            }
+           }else{
+            $filepath = $oldPhoto;
+           }
+            //Data Update
+           $hotel= Hotel::find($id);
+            $hotel->name =$name;
+            $hotel->price =$price;
+            $hotel->photo = $filepath;
+            $hotel->save();
+
+           return redirect()->route('backside.hotel.index')->with('successMsg','An Existing Hotel has been Updated');    
+        }else{
+            return redirect::back()->withErrors($validator);
+        }
     }
 
     /**
@@ -79,6 +149,9 @@ class HotelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $hotel = Hotel::find($id);
+        $hotel->delete();
+
+        return redirect()->route('backside.hotel.index')->with('successMsg','A Hotel has been deleted');
     }
 }

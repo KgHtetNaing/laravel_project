@@ -1,5 +1,5 @@
 <x-backend>
-	<div class="container-fluid mt-5">
+    <div class="container-fluid mt--6">
       
       <div class="row" style="margin-top: 180px">
         <div class="col-xl-8">
@@ -21,31 +21,54 @@
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Name </th>
-                    <th scope="col"> Photo </th>
+                    <th scope="col"> No </th>
                     <th scope="col"> Type </th>
-                    
-
-                    
-
+                    <th scope="col">Name </th>
                     <th scope="col">Price</th>
-                    
-                    
+                    <th scope="col"> Photo </th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                	<tr>
-                    <td scope="col">Mandalar Min </td>          
-                    <td scope="col"><img src="" alt="hotel photo"> </td>          
-                    <td scope="col">Car </td>          
-                      <td>3000</td>
-                      <td>
-                      
-                      <a href="{{route('backside.transportation.edit',1)}}" class="table-icon linkIcon"><i class="icofont-settings-alt"></i></a>
-                      <a href="#" class="table-icon linkIcon"><i class="icofont-ui-delete"></i></a>
-                      </td>  
-                      </tr>       
+                  @php $i=1; @endphp
+
+                    @foreach($transportations as $transportation)
+
+                    @php
+
+                        $id = $transportation->id;
+                        $type = $transportation->type;
+                        $name = $transportation->name;
+                        $price = $transportation->price;
+                        $photo = $transportation->photo;
+
+
+
+                    @endphp
+                  <tr>
+                    <th scope="col"> {{$i++}} </th>
+                     <th scope="col">{{$type}} </th>  
+                    <th scope="col">{{$name}} </th> 
+                    <th scope="col">{{$price}}Ks</th>         
+                    <th scope="col"><img src="{{asset($photo)}}" class="img-fluid" style="width: 70px;" alt="transportation photo"> </th> 
+                    
+                    <th>
+                     <a href="{{route('backside.transportation.edit',$id)}}" class="table-icon linkIcon"><i class="icofont-settings-alt"></i></a>
+                      <form action="{{ route('backside.transportation.destroy',$id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure?')">
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button class="btn btn-outline-none" type="submit"> 
+                         <i class="icofont-ui-delete"></i>
+                        </button>
+
+                      </form>
+                    </th>          
+                   
+                  </tr>  
+                  @endforeach      
+                          
                 </tbody>
               </table>
             </div>
@@ -55,4 +78,4 @@
         </div>
        
   </div>
-</x-backend>
+</x-backend>     

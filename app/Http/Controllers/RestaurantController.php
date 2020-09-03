@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Restaurant;
+
 
 class RestaurantController extends Controller
 {
@@ -13,7 +15,8 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        return view('backend.restaurant.list');
+         $restaurants = Restaurant::all();
+        return view('backend.restaurant.list',compact('restaurants'));
     }
 
     /**
@@ -23,7 +26,7 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-     return view('backend.restaurant.new');
+        return view('backend.restaurant.new');
     }
 
     /**
@@ -34,7 +37,40 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = $request->validate([
+
+            'name' =>['required', 'string', 'max:255','unique:restaurants'],
+            'photo' =>'required|mimes:jpeg,bmp,png,jpg'
+        ]);
+
+      if($validator)
+        { 
+            $name = $request->name;
+            $price = $request->price;
+            $photo = $request->photo;
+
+            
+           //file upload
+            $imageName = time().'.'.$photo->extension();
+
+            //move photo in location
+            $photo->move(public_path('images/restaurant'),$imageName);
+
+
+            //store database
+            $filepath = 'images/restaurant/'.$imageName;
+
+            //data insert
+            $restaurant = new Restaurant;
+            $restaurant->name = $name;
+            $restaurant->price = $price;
+            $restaurant->photo = $filepath;
+            $restaurant->save();
+
+            return redirect()->route('backside.restaurant.index')->with("successMsg",'is ADDED in your data');
+        } else{
+                return redirect::back()->withErrors($validator);
+        }
     }
 
     /**
@@ -56,7 +92,10 @@ class RestaurantController extends Controller
      */
     public function edit($id)
     {
-        return view('backend.restaurant.edit');
+        $restaurant = Restaurant::find($id);
+        /*dd($category);*/
+
+        return view('backend.restaurant.edit',compact('restaurant'));
     }
 
     /**
@@ -68,7 +107,45 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         {
+        $name = $request->name;
+        $price = $request->price;
+        $newphoto = $request->photo;
+        $oldphoto = $request->oldphoto;
+        
+        if ($request->hasFile('photo')) {
+           
+
+            //file upload
+        $imageName = time().'.'.$newphoto->extension();
+
+        //move photo in location
+        $newphoto->move(public_path('images/restaurant'),$imageName);
+
+
+        //store database
+        $filepath = 'images/restaurant/'.$imageName;
+
+
+        //delete oldphoto
+        if (\File::exists(public_path($oldphoto))) {
+            \File::delete(public_path($oldphoto));
+        }
+
+        }else{
+            $filepath = $oldphoto;
+        }
+
+        //data_upate
+        $restaurant = Restaurant::find($id);
+        $restaurant ->name = $name;
+        $restaurant ->price = $price;
+        $restaurant ->photo = $filepath;
+        $restaurant-> save();
+
+        return redirect()->route('backside.restaurant.index')->with('successMsg', 'Existing Restaurant is UPDATED in your data');
+
+    }
     }
 
     /**
@@ -79,6 +156,9 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $restaurant = Restaurant::find($id);
+        $restaurant->delete();
+
+        return redirect()->route('backside.restaurant.index')->with('successMsg', 'have been deleted!');
     }
 }

@@ -3,7 +3,7 @@
   <div class="main-content" id="panel">
    
 
-    <div class="container-fluid mt-5">
+    <div class="container-fluid mt--6">
       
       <div class="row" style="margin-top: 180px">
         <div class="col-xl-8">
@@ -25,33 +25,76 @@
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
+                    <th scope="col">No</th>
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Type</th>
                     <th scope="col">Photo</th>
+                    <th scope="col">Nature</th>
+                    <th scope="col">Hotel</th>
+                    <th scope="col">Restaurant</th>
+                    <th scope="col">Transportation</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                   @php $i=1; @endphp
+
+                    @foreach($locations as $location)
+
+                    @php
+
+                        $id = $location->id;
+                        $name = $location->name;
+                        $price = $location->price;
+                        $photo = $location->photo;
+                        $nature = $location->nature;
+                        $hotelid = $location->hotel->name;
+                        $restaurantid = $location->restaurant->name;
+                        $transportationid = $location->transportation->name;
+                       
+
+                    @endphp
                   <tr>
                     <th scope="row">
-                      Pyin Oo Lwin
+                      {{$i++}}
+                    </th>
+                    <th scope="row">
+                      {{$name}}
                     </th>
                     <td>
-                      60000
+                      {{$price}}
+                    </td>
+                     <td>
+                      <img src="{{asset($photo)}}" class="img-fluid" style="width: 70px;" alt="hotel photo">
                     </td>
                     <td>
-                      Mountain
+                      {{$nature}}
                     </td>
                     <td>
-                      <img src="" alt="location photo">
+                     {{$hotelid}}
                     </td>
                     <td>
-                      <a href="#" class="table-icon linkIcon"><i class="icofont-info"></i></a>
-                      <a href="{{route('backside.location.edit',1)}}" class="table-icon linkIcon"><i class="icofont-settings-alt"></i></a>
-                      <a href="#" class="table-icon linkIcon"><i class="icofont-ui-delete"></i></a>
+                      {{$restaurantid}}
                     </td>
-                  </tr>                 
+                    <td>
+                      {{$transportationid}}
+                    </td>
+                   
+                    <td>
+                      <a href="{{route('backside.location.edit',$id)}}" class="table-icon linkIcon"><i class="icofont-settings-alt"></i></a>
+                      <form action="{{ route('backside.location.destroy',$id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure?')">
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button class="btn btn-outline-none" type="submit"> 
+                         <i class="icofont-ui-delete"></i>
+                        </button>
+
+                      </form>
+                    </td>
+                  </tr>
+                  @endforeach              
                 </tbody>
               </table>
             </div>

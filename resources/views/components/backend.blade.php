@@ -37,32 +37,32 @@
           <!-- Nav items -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" href="examples/dashboard.html">
-                <i class="ni ni-tv-2 text-primary"></i>
+              <a class="nav-link" href="examples/dashboard.html">
+                <i class="ni icofont-package text-primary"></i>
                 <span class="nav-link-text">Package</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="examples/icons.html">
+              <a class="nav-link" href="{{route('backside.location.index')}}">
                 <i class="ni ni-pin-3 text-primary"></i>
                 <span class="nav-link-text">Location</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="examples/map.html">
+              <a class="nav-link" href="{{route('backside.hotel.index')}}">
                 <i class="icofont-hotel text-primary"></i>
                 <span class="nav-link-text">Hotel</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="examples/profile.html">
-                <i class="ni ni-single-02 text-yellow"></i>
+              <a class="nav-link" href="{{route('backside.restaurant.index')}}">
+                <i class="icofont-restaurant text-primary"></i>
                 <span class="nav-link-text">Restaurant</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="examples/tables.html">
-                <i class="ni ni-bullet-list-67 text-default"></i>
+              <a class="nav-link" href="{{route('backside.transportation.index')}}">
+                <i class="ni icofont-airplane-alt text-primary"></i>
                 <span class="nav-link-text">Transportation</span>
               </a>
             </li>
@@ -272,7 +272,7 @@
               <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="media align-items-center">
                   <span class="avatar avatar-sm rounded-circle">
-                    <img alt="Image placeholder" src="assets/img/theme/team-4.jpg">
+                    <img src="{{asset('backend/assets/img/theme/team-4.jpg')}}">
                   </span>
                   <div class="media-body  ml-2  d-none d-lg-block">
                     <span class="mb-0 text-sm  font-weight-bold">John Snow</span>

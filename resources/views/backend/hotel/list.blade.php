@@ -1,7 +1,7 @@
 <x-backend>
    
 
-    <div class="container-fluid mt-5">
+    <div class="container-fluid mt--6">
       
       <div class="row" style="margin-top: 180px">
         <div class="col-xl-8">
@@ -23,6 +23,7 @@
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
+                    <th>No</th>
                     <th scope="col">Hotel </th>
                     <th scope="col">Hotel Photo </th>
                     
@@ -36,16 +37,30 @@
                   </tr>
                 </thead>
                 <tbody>
+                   @php $i=1; @endphp
+                  @foreach($hotels as $hotel)
+                  @php
+                  $id=$hotel->id;
+                  $name=$hotel->name;
+                  $price=$hotel->price;
+                  $photo=$hotel->photo;
+                  @endphp
                   <tr>
-                    <td scope="col">Hotel Name </td>          
-                    <td  scope="col"><img src="" alt="hotel photo"> </td>          
-                      <td>3000</td>
+                    <td>{{$i++}}</td>
+                    <td scope="col">{{$name}} </td>          
+                    <td  scope="col"><img src="{{asset($photo)}}" alt="hotel photo" class="img-fluid w-50"> </td>          
+                      <td>{{$price}}Ks</td>
                       <td>
                       
-                      <a href="{{route('backside.hotel.edit',1)}}" class="table-icon linkIcon"><i class="icofont-settings-alt"></i></a>
-                      <a href="#" class="table-icon linkIcon"><i class="icofont-ui-delete"></i></a>
+                      <a href="{{route('backside.hotel.edit',$id)}}" class="table-icon linkIcon"><i class="icofont-settings-alt"></i></a>
+                       <form action="{{route('backside.hotel.destroy',$id)}}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure sir?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-outline-none" type="submit"><i class="icofont-ui-delete"></i></button>
+                                                </form>
                       </td>
-                    </tr>    
+                    </tr> 
+                    @endforeach   
                 </tbody>
               </table>
             </div>

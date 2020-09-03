@@ -14,6 +14,6 @@ class Hotel extends Model
 
      public function locations()
     {
-    	return $this->belongTo('App\Location');
+    	return $this->hasMany('App\Location');
     }
 }
